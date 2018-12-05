@@ -1,0 +1,23 @@
+{
+    "name": "artem/api",
+    "description": "description_text",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "type": "project",
+    "authors": [
+        {
+            "name": "artem",
+            "email": "lyadvin@mail.ru"
+        }
+    ],
+    "require": {
+        "php": ">=7.1"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "App\\Api\\":"src/"
+        }
+    }
+
+}
