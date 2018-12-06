@@ -40,7 +40,9 @@ class Listener
             die();
         }
 
-        $controller->{$request->getAction()}();
+
+
+        $controller->{$request->getAction()}($request);
 
     }
 

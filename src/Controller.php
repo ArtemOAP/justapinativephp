@@ -16,26 +16,40 @@ class Controller
     public function __call($name, $arguments)
     {
         //TODO log not found method $name or method not public
+        echo $name;
+        //auth
+       // $this->{$name}();
     }
 
 
-    public function showAll()
+    public function showAll(Request $request):void
     {
-        $items = [
-            1=>10,
-            2=>20,
-            3=>55
-        ];
-        $r = new Response();
-        $r->renderJson($items);
+        $dbManager = ManagerDb::Connect();
+       Response::getInstance()->renderJson($dbManager->showAll());
     }
 
-    public function show()
+    public function show(Request $request):void
     {
-        $r = new Response();
-        $r->renderJson([1=>10]);
-
+        $len = count($request->getNodesPath());
+        if (!array_key_exists($len-1,$request->getNodesPath())){
+            //TODO error
+        }
+        $id = $request->getNodesPath()[$len -1];
+        $dbManager = ManagerDb::Connect();
+        Response::getInstance()->renderJson($dbManager->find($id));
     }
+    public function itemsCount(Request $request):void
+    {
+        $dbManager = ManagerDb::Connect();
+        Response::getInstance()->renderJson($dbManager->countItems());
+    }
+
+    protected function create()
+    {
+
+        echo 'this';
+    }
+
 
 
 }
