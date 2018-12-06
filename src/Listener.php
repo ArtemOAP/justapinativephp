@@ -9,6 +9,9 @@
 namespace App\Api;
 
 
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+
 class Listener
 {
     protected $routeMap = [
@@ -19,10 +22,12 @@ class Listener
     /** @var Route  */
     protected $routes;
     protected $currentUrl;
+    public static $logger;
 
 
-    public function __construct(Route $route,Controller $controller, $requestUrl)
+    public function __construct(Route $route,Controller $controller, $requestUrl,Logger $logger)
     {
+        self::$logger = $logger;
         $this->currentUrl = $requestUrl;
         $this->routes = $route;
 
@@ -31,11 +36,13 @@ class Listener
         if(is_null($request)){
             header("HTTP/1.0 404 Not Found");
             echo "404 Not Found";
+            self:$logger->err("HTTP/1.0 404 Not Found",['patch'=>$requestUrl]);
             die();
         }
         if($request->getMethod() != $_SERVER['REQUEST_METHOD']){
             //TODO log
             header("HTTP/1.0 404 Not Found");
+            self::$logger->err("HTTP/1.0 404 Not Found",['patch'=>$requestUrl]);
             echo "404 Not Found Method ".$_SERVER['REQUEST_METHOD'];
             die();
         }
