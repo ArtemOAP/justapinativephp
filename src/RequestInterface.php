@@ -17,5 +17,6 @@ interface RequestInterface
     public function getMethod();
     public function setParamInt($paramInt): void;
     public function getAction() :string ;
+    public function isPublic(): bool;
 
 }

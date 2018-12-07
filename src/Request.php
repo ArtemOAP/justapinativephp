@@ -19,9 +19,11 @@ class Request implements RequestInterface
     protected $body;
     protected $paramInt;
     protected $action;
+    protected $is_public;
 
-    public function __construct($route,$method,$id,$action,$param =null,$body = null)
+    public function __construct($route,$method,$id,$action,bool $is_public = false,$param =null,$body = null)
     {
+        $this->is_public = $is_public;
         $this->action = $action;
         $this->method = $method;
         $this->nodesPath  = array_filter(explode('/',$route),function ($el){
@@ -31,6 +33,23 @@ class Request implements RequestInterface
         $this->body = $body;
         $this->id = $id;
     }
+
+    /**
+     * @return bool
+     */
+    public function isPublic(): bool
+    {
+        return $this->is_public;
+    }
+
+    /**
+     * @param bool $is_public
+     */
+    public function setIsPublic(bool $is_public): void
+    {
+        $this->is_public = $is_public;
+    }
+
 
 
 

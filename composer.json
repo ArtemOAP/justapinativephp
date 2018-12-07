@@ -12,7 +12,9 @@
     ],
     "require": {
         "php": ">=7.1",
-        "monolog/monolog": "^1.24"
+        "monolog/monolog": "^1.24",
+        "firebase/php-jwt": "^5.0"
+
     },
 
     "autoload": {

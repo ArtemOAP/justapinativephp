@@ -54,6 +54,7 @@ final class Route
 
     public function search($nodes):?RequestInterface
     {
+
         foreach ($this->routs as $req){
             $res = array_map(function ($el1,$el2){
                 if ($el1 == $el2 && !empty($el2)){
