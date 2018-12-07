@@ -34,9 +34,7 @@ class Listener
         $this->currentUrl = isset($server["REQUEST_URI"])?$server["REQUEST_URI"]:'default';
         $this->token = isset($server["HTTP_TOKEN"])?$server["HTTP_TOKEN"]:null;
         $this->routes = $route;
-
-        $request = $this->parse($this->currentUrl);
-
+        $request = $this->routes->search(Request::patchToArray($this->currentUrl));
         if(is_null($request)){
             header("HTTP/1.0 404 Not Found");
             echo "404 Not Found";
@@ -61,13 +59,6 @@ class Listener
 
     }
 
-    public function parse($path)
-    {
-        $requestNodes  = array_filter(explode('/',$path),function ($el){
-            return !empty($el);
-        });
-       return $this->routes->search($requestNodes);
-    }
 
     public function parsePatch($patch)
     {

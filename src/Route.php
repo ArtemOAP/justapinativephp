@@ -19,7 +19,7 @@ final class Route
     /**
      * @var array Request
      */
-    protected $routs = [];
+    protected $aloweRequests = [];
 
     protected static $route;
 
@@ -36,39 +36,36 @@ final class Route
     {
     }
 
-    /**
-     * api/route/param
-     * @param $route
-     * /param
-     * @param $param
-     * @param $method
-     */
-    public function addRoute(RequestInterface $route)
+    public function addAllowableRequest(RequestInterface $request)
     {
-        $this->routs[] =  $route;
+        $this->aloweRequests[] =  $request;
     }
-    public function countRout():int
+    public function countAllowableRequest():int
     {
-        return count($this->routs);
+        return count($this->aloweRequests);
     }
 
-    public function search($nodes):?RequestInterface
+    public function search(array $nodes):?RequestInterface
     {
-
-        foreach ($this->routs as $req){
-            $res = array_map(function ($el1,$el2){
-                if ($el1 == $el2 && !empty($el2)){
-                    return $el2;
-                }elseif(strpos($el1,'}') && $el2){
-                    return (int)$el2;
-                }elseif($el1 != $el2){
-                    return false;
-                }
+        $map = [];
+        foreach ($this->aloweRequests as $req){
+          array_map(function ($el1,$el2) use(&$map){
+               if ($el1 == $el2 && !empty($el2)){
+                   $map[$el1] = $el2;
+                   return $el2;
+               }elseif(strpos($el1,'}') && $el2){
+                   $map[str_replace(['{','}'],['',''],$el1)] = $el2;
+                   return $el2;
+               }elseif($el1 != $el2){
+                   $map =null;
+                   return null;
+               }
             },$req->getNodesPath(),$nodes);
-            if (!in_array(false,$res)){
-                $req->setNodesPath($res);
-                return  $req;
+            if(!empty($map)){
+                $req->setNodesPath($map);
+                return $req;
             }
+
         }
         return null;
     }

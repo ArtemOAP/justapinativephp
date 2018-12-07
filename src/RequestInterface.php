@@ -18,5 +18,5 @@ interface RequestInterface
     public function setParamInt($paramInt): void;
     public function getAction() :string ;
     public function isPublic(): bool;
-
+    public function getNodesPath() :array;
 }

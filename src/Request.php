@@ -1,16 +1,18 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Dev
- * Date: 04.12.2018
- * Time: 17:12
- */
 
 namespace App\Api;
 
 
 class Request implements RequestInterface
 {
+
+    const POST = "POST";
+    const GET = "GET";
+    const PUT = "PUT";
+    const DELETE = "DELETE";
+
+    protected static $count = 0;
+
     protected $id;
     /** @var array */
     protected $nodesPath;
@@ -21,17 +23,23 @@ class Request implements RequestInterface
     protected $action;
     protected $is_public;
 
-    public function __construct($route,$method,$id,$action,bool $is_public = false,$param =null,$body = null)
+    public function __construct($patch, $method, $action, bool $is_public = false, $param = null, $body = null)
     {
+        self::$count++;
         $this->is_public = $is_public;
-        $this->action = $action;
-        $this->method = $method;
-        $this->nodesPath  = array_filter(explode('/',$route),function ($el){
+        $this->action    = $action;
+        $this->method    = $method;
+        $this->nodesPath = self::patchToArray($patch);
+
+
+        $this->param     = $param;
+        $this->body      = $body;
+        $this->id        = self::$count;
+    }
+    public static function patchToArray(string $patch) : array {
+        return array_filter(explode('/', $patch), function ($el) {
             return !empty($el);
         });
-        $this->param = $param;
-        $this->body = $body;
-        $this->id = $id;
     }
 
     /**
@@ -49,9 +57,6 @@ class Request implements RequestInterface
     {
         $this->is_public = $is_public;
     }
-
-
-
 
     /**
      * @return mixed
@@ -84,10 +89,6 @@ class Request implements RequestInterface
     {
         $this->nodesPath = $nodesPath;
     }
-
-
-
-
 
     /**
      * @return null
@@ -156,7 +157,7 @@ class Request implements RequestInterface
     /**
      * @return string
      */
-    public function getAction() :string
+    public function getAction(): string
     {
         return $this->action;
     }
@@ -168,9 +169,6 @@ class Request implements RequestInterface
     {
         $this->action = $action;
     }
-
-
-
 
 
 }
