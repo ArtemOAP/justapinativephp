@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Dev
- * Date: 04.12.2018
- * Time: 15:39
- */
 
-namespace App\Api;
-
+namespace App\Api\Core;
 use Monolog\Logger;
 
 class Listener
@@ -20,7 +13,7 @@ class Listener
     public static $logger;
 
 
-    public function __construct(Route $route,Controller $controller, $server,$get,Logger $logger)
+    public function __construct(Route $route,ControllerApp $controller, $server,$get,$post,Logger $logger)
     {
 
         self::$logger = $logger;
@@ -29,23 +22,19 @@ class Listener
         $this->routes = $route;
         $request = $this->routes->search(Request::patchToArray($this->currentUrl));
         if(is_null($request)){
-            header("HTTP/1.0 404 Not Found");
-            echo "404 Not Found";
             self:$logger->err("HTTP/1.0 404 Not Found",['patch'=>$this->currentUrl]);
-            die();
+            throw new \RuntimeException("HTTP/1.0 404 Not Found",404);
         }
         if($request->getMethod() != $_SERVER['REQUEST_METHOD']){
-            //TODO log
-            header("HTTP/1.0 404 Not Found");
             self::$logger->err("HTTP/1.0 404 Not Found",['patch'=>$this->currentUrl]);
-            echo "404 Not Found Method ".$_SERVER['REQUEST_METHOD'];
-            die();
+            throw new \RuntimeException("HTTP/1.0 404 Not Found",404);
         }
         if(!$request->isPublic() && !$controller->verification($this->token)){
             self::$logger->err("access denied for",['token'=>$this->token]);
-            return;
+            throw new \RuntimeException("HTTP/1.0 Forbidden",403);
         }
         $request->setParams($get);
+        $request->setPost($post);
         $controller->{$request->getAction()}($request);
 
     }

@@ -6,7 +6,7 @@
  * Time: 13:46
  */
 
-namespace App\Api;
+namespace App\Api\Core;
 
 
 interface ManagerDbInterface

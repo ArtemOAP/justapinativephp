@@ -1,11 +1,17 @@
 <?php
 
 namespace App\Api;
+use App\Api\Core\ControllerApp;
+use App\Api\Core\RequestInterface;
+use App\Api\Core\Request;
+use App\Api\Core\Route;
+use App\Api\Core\Response;
+use App\Api\Core\Listener;
 
 use Firebase\JWT\JWT;
 
 
-class Controller
+class Controller extends ControllerApp
 {
     const SECRET_KEY = "megaKey12345!@#$%";
 
@@ -32,12 +38,11 @@ class Controller
 
     public function show(Request $request):void
     {
-        $len = count($request->getNodesPath());
-        if (!array_key_exists($len-1,$request->getNodesPath())){
+        if (!array_key_exists('id',$request->getNodesPath())){
             //TODO error
 
         }
-        $id = $request->getNodesPath()[$len -1];
+        $id = (int)$request->getNodesPath()['id'];
         $dbManager = ManagerDb::Connect();
         Response::getInstance()->renderJson($dbManager->find($id));
     }

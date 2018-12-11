@@ -6,7 +6,7 @@
  * Time: 15:16
  */
 
-namespace App\Api;
+namespace App\Api\Core;
 
 
 class Response

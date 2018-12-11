@@ -1,5 +1,5 @@
 <?php
-namespace App\Api;
+namespace App\Api\Core;
 class Benchmark
 {
     protected static $time_start;

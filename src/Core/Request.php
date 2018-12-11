@@ -1,25 +1,19 @@
 <?php
 
-namespace App\Api;
+namespace App\Api\Core;
 
 
 class Request implements RequestInterface
 {
-
-    const POST = "POST";
-    const GET = "GET";
-    const PUT = "PUT";
-    const DELETE = "DELETE";
-
     protected static $count = 0;
 
     protected $id;
     /** @var array */
     protected $nodesPath;
     protected $params;
+    protected $postData;
     protected $method;
     protected $body;
-    protected $paramInt;
     protected $action;
     protected $is_public;
 
@@ -144,21 +138,7 @@ class Request implements RequestInterface
         $this->body = $body;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getParamInt()
-    {
-        return $this->paramInt;
-    }
 
-    /**
-     * @param mixed $paramInt
-     */
-    public function setParamInt($paramInt): void
-    {
-        $this->paramInt = $paramInt;
-    }
 
     /**
      * @return string
@@ -174,6 +154,18 @@ class Request implements RequestInterface
     public function setAction($action): void
     {
         $this->action = $action;
+    }
+
+    public function setPost($post): void
+    {
+        $this->postData = $post;
+
+    }
+
+    public function getPost(string $key): ?string
+    {
+        return isset($this->postData['key'])?$this->postData['key']:null;
+
     }
 
 

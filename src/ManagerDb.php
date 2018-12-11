@@ -1,5 +1,6 @@
 <?php
 namespace App\Api;
+use App\Api\Core\ManagerDbInterface;
 
 
 class ManagerDb implements ManagerDbInterface
