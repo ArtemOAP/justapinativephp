@@ -8,17 +8,10 @@
 
 namespace App\Api;
 
-
-use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
 class Listener
 {
-    protected $routeMap = [
-      '/api/items',
-      '/api/item/{id}'
-    ];
-
     /** @var Route  */
     protected $routes;
     protected $currentUrl;
@@ -27,7 +20,7 @@ class Listener
     public static $logger;
 
 
-    public function __construct(Route $route,Controller $controller, $server,Logger $logger)
+    public function __construct(Route $route,Controller $controller, $server,$get,Logger $logger)
     {
 
         self::$logger = $logger;
@@ -51,23 +44,9 @@ class Listener
         if(!$request->isPublic() && !$controller->verification($this->token)){
             self::$logger->err("access denied for",['token'=>$this->token]);
             return;
-
-
-
         }
+        $request->setParams($get);
         $controller->{$request->getAction()}($request);
-
-    }
-
-
-    public function parsePatch($patch)
-    {
-        $patches =  explode('/',$patch);
-        foreach ($patches as $p){
-            if($pos = strpos($p,'{')){
-
-            }
-        }
 
     }
 

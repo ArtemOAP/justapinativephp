@@ -16,7 +16,7 @@ class Request implements RequestInterface
     protected $id;
     /** @var array */
     protected $nodesPath;
-    protected $param;
+    protected $params;
     protected $method;
     protected $body;
     protected $paramInt;
@@ -37,9 +37,13 @@ class Request implements RequestInterface
         $this->id        = self::$count;
     }
     public static function patchToArray(string $patch) : array {
-        return array_filter(explode('/', $patch), function ($el) {
+        if(($indexParams = strpos($patch,'?'))!=false ){
+            $patch = substr($patch,0,$indexParams);
+        };
+        $nodes = array_filter(explode('/', $patch), function ($el) {
             return !empty($el);
         });
+        return $nodes;
     }
 
     /**
@@ -90,20 +94,22 @@ class Request implements RequestInterface
         $this->nodesPath = $nodesPath;
     }
 
+
     /**
-     * @return null
+     * @param string $key
+     * @return null|string
      */
-    public function getParam()
+    public function getParam(string $key):?string
     {
-        return $this->param;
+        return isset($this->params[$key])?$this->params[$key]:null;
     }
 
     /**
      * @param null $param
      */
-    public function setParam($param): void
+    public function setParams($param): void
     {
-        $this->param = $param;
+        $this->params = $param;
     }
 
     /**

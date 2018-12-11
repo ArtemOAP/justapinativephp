@@ -12,10 +12,10 @@ namespace App\Api;
 interface RequestInterface
 {
 
-    public function getParam();
     public function getBody();
     public function getMethod();
-    public function setParamInt($paramInt): void;
+    public function setParams($param): void;
+    public function getParam(string $key): ?string;
     public function getAction() :string ;
     public function isPublic(): bool;
     public function getNodesPath() :array;

@@ -47,6 +47,7 @@ final class Route
 
     public function search(array $nodes):?RequestInterface
     {
+
         $map = [];
         foreach ($this->aloweRequests as $req){
           array_map(function ($el1,$el2) use(&$map){

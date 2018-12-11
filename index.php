@@ -1,7 +1,6 @@
 <?php
 require_once 'vendor/autoload.php';
 
-use App\Api\Benchmark;
 use App\Api\Controller;
 use App\Api\Listener;
 use App\Api\Request;
@@ -23,6 +22,6 @@ $route->addAllowableRequest(new Request('/api/auth',Route::POST,'auth',true));
 //$route->addRoute(new Request('/api/create/{id}',Route::GET,$route->countRout()+1,'create'));
 //$_SERVER['REQUEST_URI'] = '/api/items/';
 //$_SERVER['REQUEST_METHOD'] = 'GET';
-$app = new Listener($route,$controller,$_SERVER,$logger);
+$app = new Listener($route,$controller,$_SERVER,$_GET,$logger);
 //Benchmark::end();
 
