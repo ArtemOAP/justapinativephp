@@ -3,7 +3,7 @@ namespace App\Api\Tests;
 
 use App\Api\Core\Request;
 use App\Api\Core\RequestInterface;
-use App\Api\Core\Route;
+use App\Api\Core\Router;
 use PHPUnit\Framework\TestCase;
 
 class AppTest extends TestCase
@@ -24,7 +24,7 @@ class AppTest extends TestCase
 
     public function testRoute()
     {
-        $route =Route::getInstance();
+        $route =Router::getInstance();
         $route->addAllowableRequest(new Request('patch/1/2/3/this',RequestInterface::METHOD_GET,'test'));
         $route->addAllowableRequest(new Request('patch/1/2/3/this2',RequestInterface::METHOD_GET,'test2'));
         $route->addAllowableRequest(new Request('patch',RequestInterface::METHOD_GET,'test3'));

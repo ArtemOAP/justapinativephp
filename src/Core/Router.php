@@ -3,7 +3,7 @@
 namespace App\Api\Core;
 
 
-final class Route
+final class Router
 {
     const POST = "POST";
     const GET = "GET";

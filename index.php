@@ -5,7 +5,7 @@ use App\Api\Controller;
 use App\Api\Core\Listener;
 use App\Api\Core\Request;
 use App\Api\Core\RequestInterface;
-use App\Api\Core\Route;
+use App\Api\Core\Router;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
@@ -14,7 +14,7 @@ $logger = new Logger('APP');
 $logger->pushHandler(new StreamHandler('var/log/app.log', Logger::WARNING));
 
 //Benchmark::begin();
-$route = Route::getInstance();
+$route = Router::getInstance();
 $controller = Controller::getInstance();
 $route->addAllowableRequest(new Request('/api/items/',RequestInterface::METHOD_GET,'showAll',false));
 $route->addAllowableRequest(new Request('/api/item/{id}',RequestInterface::METHOD_GET,'show',true));

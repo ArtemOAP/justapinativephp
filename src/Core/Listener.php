@@ -5,7 +5,7 @@ use Monolog\Logger;
 
 class Listener
 {
-    /** @var Route  */
+    /** @var Router  */
     protected $routes;
     protected $currentUrl;
     //hearer: token : example
@@ -13,13 +13,22 @@ class Listener
     public static $logger;
 
 
-    public function __construct(Route $route,ControllerApp $controller, $server,$get,$post,Logger $logger)
+    /**
+     * Listener constructor.
+     * @param Router $router
+     * @param ControllerApp $controller
+     * @param $server
+     * @param $get
+     * @param $post
+     * @param Logger $logger
+     */
+    public function __construct(Router $router,ControllerApp $controller, $server,$get,$post,Logger $logger)
     {
 
         self::$logger = $logger;
         $this->currentUrl = isset($server["REQUEST_URI"])?$server["REQUEST_URI"]:'default';
         $this->token = isset($server["HTTP_TOKEN"])?$server["HTTP_TOKEN"]:null;
-        $this->routes = $route;
+        $this->routes = $router;
         $request = $this->routes->search(Request::patchToArray($this->currentUrl));
         if(is_null($request)){
             self:$logger->err("HTTP/1.0 404 Not Found",['patch'=>$this->currentUrl]);

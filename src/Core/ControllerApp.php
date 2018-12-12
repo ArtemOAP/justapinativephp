@@ -9,7 +9,8 @@
 namespace App\Api\Core;
 
 
-class ControllerApp
+interface ControllerApp
 {
+    public  function verification($token):bool;
 
 }

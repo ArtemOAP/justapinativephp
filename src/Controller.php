@@ -4,14 +4,14 @@ namespace App\Api;
 use App\Api\Core\ControllerApp;
 use App\Api\Core\RequestInterface;
 use App\Api\Core\Request;
-use App\Api\Core\Route;
+use App\Api\Core\Router;
 use App\Api\Core\Response;
 use App\Api\Core\Listener;
 
 use Firebase\JWT\JWT;
 
 
-class Controller extends ControllerApp
+class Controller implements ControllerApp
 {
     const SECRET_KEY = "megaKey12345!@#$%";
 
@@ -60,6 +60,7 @@ class Controller extends ControllerApp
 
     public function auth():void
     {
+        //Authorization: Basic YWxhZGRpbjpvcGVuc2VzYW1l
         $res = file_get_contents('php://input');
         $data = json_decode($res,true);
         if (is_null($data) || !isset($data['name']) || !isset($data['pass'])){
