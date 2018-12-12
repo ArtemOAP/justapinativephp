@@ -2,9 +2,7 @@
 
 namespace App\Api;
 use App\Api\Core\ControllerApp;
-use App\Api\Core\RequestInterface;
 use App\Api\Core\Request;
-use App\Api\Core\Router;
 use App\Api\Core\Response;
 use App\Api\Core\Listener;
 
@@ -52,20 +50,14 @@ class Controller implements ControllerApp
         Response::getInstance()->renderJson($dbManager->countItems());
     }
 
-    protected function create()
-    {
-
-        echo 'this';
-    }
-
     public function auth():void
     {
-        //Authorization: Basic YWxhZGRpbjpvcGVuc2VzYW1l
         $res = file_get_contents('php://input');
         $data = json_decode($res,true);
         if (is_null($data) || !isset($data['name']) || !isset($data['pass'])){
             $data = $data?$data:[];
             Listener::$logger->err("auth() require data empty",$data);
+            Response::getInstance()->renderJson(['msg'=>"require data empty"]);
             return;
         }
         Listener::$logger->info("auth try ",$data);
@@ -79,6 +71,7 @@ class Controller implements ControllerApp
             $jwt = JWT::encode($token, self::SECRET_KEY);
             Response::getInstance()->renderJson(['token'=>$jwt]);
         }
+        Response::getInstance()->renderJson(['msg'=>"error auth"]);
     }
 
     public  function verification($token):bool

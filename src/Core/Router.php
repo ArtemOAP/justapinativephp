@@ -5,14 +5,6 @@ namespace App\Api\Core;
 
 final class Router
 {
-    const POST = "POST";
-    const GET = "GET";
-
-
-    private $supportedHttpMethods = array(
-        "GET",
-        "POST"
-    );
     protected $method;
     protected $url;
     protected $mathe;
