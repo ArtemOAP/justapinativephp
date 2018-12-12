@@ -1,0 +1,4 @@
+test:7.1:
+  image: php:7.1
+  script:
+  - phpunit --configuration phpunit.xml
