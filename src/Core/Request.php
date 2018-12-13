@@ -30,6 +30,7 @@ class Request implements RequestInterface
         $this->body      = $body;
         $this->id        = self::$count;
     }
+
     public static function patchToArray(string $patch) : array {
         if(($indexParams = strpos($patch,'?'))!=false ){
             $patch = substr($patch,0,$indexParams);

@@ -1,0 +1,18 @@
+config:
+    routes:
+        showAll:
+           pattern: '/api/items/'
+           method: GET
+           public: false
+        show:
+           pattern: '/api/item/{id}'
+           method: GET
+           public: false
+        itemsCount:
+           pattern: '/api/item_count'
+           method: GET
+           public: true
+        auth:
+           pattern: '/api/auth'
+           method: POST
+           public: true
